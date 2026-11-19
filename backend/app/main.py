@@ -42,7 +42,20 @@ async def lifespan(app:FastAPI):
         save_snapshot(chain.export())
     yield
 app=FastAPI(title="BLOCKLAB 360 API",version="1.0.0",lifespan=lifespan)
-app.add_middleware(CORSMiddleware,allow_origins=["http://localhost:5173","http://127.0.0.1:5173"],allow_credentials=True,allow_methods=["*"],allow_headers=["*"])
+import os
+
+FRONTEND_ORIGINS = os.getenv(
+    "FRONTEND_ORIGIN",
+    "http://localhost:5173,http://127.0.0.1:5173"
+).split(",")
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=[origin.strip() for origin in FRONTEND_ORIGINS],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 chain=Blockchain(); network=Network(); activity=[]; clients=set(); mining={"running":False,"paused":False,"attempts":0,"hash_rate":0.0,"elapsed":0.0,"candidate_hash":"","miner_id":None,"result":None}; mining_cancel=threading.Event(); sandbox=None; event_loop=None
 
 def log(event,detail):
