@@ -1,0 +1,1 @@
+Persistence currently uses a compact SQLAlchemy Core snapshot table to keep the educational setup simple. Alembic is reserved for future schema migrations; add an Alembic environment before introducing versioned relational tables.

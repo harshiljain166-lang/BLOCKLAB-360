@@ -1,0 +1,2 @@
+import {describe,it,expect} from 'vitest';import {useStore} from './store';
+describe('workspace state',()=>{it('switches pages and views',()=>{useStore.getState().setPage('Mining Lab');useStore.getState().setView('ledger');expect(useStore.getState().page).toBe('Mining Lab');expect(useStore.getState().view).toBe('ledger');});it('selects a node',()=>{useStore.getState().selectNode('miner-01');expect(useStore.getState().selectedNode).toBe('miner-01');});});
